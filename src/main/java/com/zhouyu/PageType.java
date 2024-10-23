@@ -7,6 +7,8 @@ public enum PageType {
 
     FIL_PAGE_INDEX(17855),  /*!< B-tree node */
     FIL_PAGE_RTREE(17854), /*!< B-tree node */
+    FIL_PAGE_SDI(17853),    /** Tablespace SDI Index page */
+    FIL_PAGE_TYPE_UNUSED(1),/** This page type is unused. */
     FIL_PAGE_UNDO_LOG(2),  /*!< Undo log page */
     FIL_PAGE_INODE(3),    /*!< Index node */
     FIL_PAGE_IBUF_FREE_LIST(4),   /*!< Insert buffer free list */
@@ -26,6 +28,7 @@ public enum PageType {
     FIL_PAGE_COMPRESSED_AND_ENCRYPTED(16),
     /*!< Compressed and Encrypted page */
     FIL_PAGE_ENCRYPTED_RTREE(17);    /*!< Encrypted R-tree page */
+
 
     private int type;
 
