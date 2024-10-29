@@ -14,6 +14,7 @@ public class IndexPageUtilUtil extends PageUtil {
     private final static int PAGE_N_DIR_SLOTS = 0;
     private final static int PAGE_HEAP_TOP = 2;
     private final static int PAGE_N_HEAP = 4;
+    private final static int PAGE_N_RECS = 16;
 
     private final static int PAGE_LEVEL = 26;
     private final static int PAGE_INDEX_ID = 28;
@@ -34,6 +35,10 @@ public class IndexPageUtilUtil extends PageUtil {
 
     public static int getNHeap(ByteBuffer pageByteBuffer) {
         return machReadFrom2(pageByteBuffer, PAGE_HEADER + PAGE_N_HEAP) & 0x7fff;
+    }
+
+    public static int getNRecs(ByteBuffer pageByteBuffer) {
+        return machReadFrom2(pageByteBuffer, PAGE_HEADER + PAGE_N_RECS);
     }
 
     public static int getLevel(ByteBuffer pageByteBuffer) {

@@ -34,11 +34,11 @@ import static guru.nidi.graphviz.model.Factory.node;
  */
 public class Main {
 
-    private static final int ID_LENGTH = 4;  // 主键ID的长度，int占4个字节
+    private static final int ID_LENGTH = 8;  // 主键ID的长度，bigInt占8个字节
 
     public static void main(String[] args) {
 
-        String ibdFilePath = "/xxx/user_info_test.ibd";
+        String ibdFilePath = "/Users/dadudu/idea/cpp/mysql-server/mysql5.7_build/build_out/data/my_db/t2.ibd";
 
         Path path = Paths.get(ibdFilePath);
 
@@ -59,9 +59,9 @@ public class Main {
                 int pageNo = PageUtil.getPageNo(byteBuffer);
                 pageNode.setPageNo(pageNo);
 
-                // 页面有多少条记录，包括最大最下记录
-                int nHeap = IndexPageUtilUtil.getNHeap(byteBuffer);
-                pageNode.setNHeap(nHeap);
+                // 页面有多少条记录
+                int nRecs = IndexPageUtilUtil.getNRecs(byteBuffer);
+                pageNode.setNRecs(nRecs);
 
                 // 页类型
                 int typeNo = PageUtil.getPageType(byteBuffer);
@@ -91,7 +91,7 @@ public class Main {
                         while (currentOffset != PAGE_NEW_SUPREMUM) {
 
                             // 目前只支持int类型（4个字节）的主键id
-                            int id = ByteBufferUtil.machReadFrom4(byteBuffer, currentOffset) & 0x7fff;
+                            long id = ByteBufferUtil.machReadFrom8(byteBuffer, currentOffset) & 0x7fff;
                             int childPageNo = ByteBufferUtil.machReadFrom4(byteBuffer, currentOffset + ID_LENGTH);
                             NodePtr nodePtr = new NodePtr();
                             nodePtr.setId(id);
@@ -171,13 +171,13 @@ public class Main {
         private PageType pageType;
         private int level;
         private long indexId;
-        private int nHeap;
+        private int nRecs;
         private List<NodePtr> nodePtrList;
     }
 
     @Data
     static class NodePtr {
-        private Integer id;
+        private Long id;
         private Integer childPageNo;
     }
 
